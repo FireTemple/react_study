@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .box {width: 320px;height: 600px;background: url("images/bg.jpg") no-repeat;margin: 30px auto;}
+        .top {height: 60px;display: flex;justify-content: space-around;align-items: center;}
+        .top button {border: none;width: 100px;height: 36px;border-radius: 5px;color: #fff;}
+        .top button:first-child {background-color: orange;}
+        .top button:last-child {background-color: orangered;}
+        .bottom {width: 96%;height: 70%;margin-top: 15px;background-color: transparent;position: relative;margin-left: 2%;}
+        .item {display: flex;flex-direction: column;justify-content: center;align-items: center;position: absolute;}
+        span{font-size: 12px;}
+    </style>
+
+</head>
+<body>
+
+<div id="app"></div>
+<script src="../js/babel.min.js"></script>
+<script src="../js/prop-types.js"></script>
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script type="text/babel">
+    class LKFlexView extends React.Component{
+        constructor(props) {
+            super(props);
+
+            this.state = {
+                shopArr : []
+            }
+
+        }
+
+        static defaultProps = {
+            dataArr: [
+                {
+                    "icon": "f1",
+                    "name": "撩课-番茄"
+                },
+                {
+                    "icon": "f2",
+                    "name": "撩课-苹果"
+                },
+                {
+                    "icon": "f3",
+                    "name": "撩课-水蜜桃"
+                },
+                {
+                    "icon": "f4",
+                    "name": "撩课-香蕉"
+                },
+                {
+                    "icon": "f5",
+                    "name": "撩课-蓝莓"
+                },
+                {
+                    "icon": "f6",
+                    "name": "撩课-菠萝"
+                },
+                {
+                    "icon": "f7",
+                    "name": "撩课-草莓"
+                },
+                {
+                    "icon": "f8",
+                    "name": "撩课-猕猴桃"
+                },
+                {
+                    "icon": "f9",
+                    "name": "撩课-橙子"
+                }
+            ]
+        }
+        render(){
+            return (
+              <div className="box">
+                  <div className="top">
+                      <button onClick={()=>this._addShop()}>add</button>
+                      <button onClick={()=>this._deleteShop()}>remove</button>
+                  </div>
+                  <div className="bottom">
+                      {this.state.shopArr}
+                  </div>
+              </div>
+            )
+        }
+        _addShop(){
+            let cols = 3, shopW = 100, shopH = 120, width = 320, height = 410;
+            console.log(this.props);
+            let {dataArr} = this.props;
+            const index = this.state.shopArr.length;
+            if(index >= 9){
+                alert("cant more");
+                return;
+            }
+            const row = Math.floor(index / cols);
+            const col = Math.floor(index % cols);
+
+            // 5. 求出当前盒子的left和top
+            let xSpace = (width - cols * shopW) / (cols - 1);
+            let ySpace = (height - 3 * shopH) / 2;
+
+            let left = col * (shopW + xSpace);
+            let top = row * (shopH + ySpace);
+
+            const shopView = (
+                <div className="item" style={{left, top}} key={index}>
+                    <img src={'images/' + dataArr[index].icon + '.png'}/>
+                    <span style={{width:shopW * 0.8, height:shopH * 0.8}}>{dataArr[index].name}</span>
+                </div>
+            );
+
+            const tempArr = this.state.shopArr;
+            tempArr.push(shopView)
+            this.setState(
+                {
+                    shopArr : tempArr
+
+                }
+                )
+        }
+        _deleteShop(){
+            const tempArr = this.state.shopArr;
+            if(tempArr.length == 0){
+                alert("at least one");
+                return;
+            }
+
+            tempArr.splice(tempArr.length - 1, 1);
+            this.setState({
+                dataArr : tempArr
+            })
+        }
+    }
+
+    ReactDOM.render(
+        <LKFlexView/>,
+        document.getElementById('app')
+    );
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+    <div id="app"></div>
+
+    <script src="./js/babel.min.js"></script>
+    <script src="./js/prop-types.js"></script>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script type="text/babel">
+
+        class Test extends React.Component{
+            constructor(props) {
+                super(props);
+
+                this.state = {
+                    name : "bohan",
+                    gender : "male",
+                    intro: 'qi li xiang'
+                }
+            }
+
+            render(){
+                const {name , gender, intro} = this.state;
+                return(
+                    <div>
+                        <h3>I am :{name}</h3>
+                        <h3>sex :{gender}</h3>
+                        <h3>intro :{intro}</h3>
+                        <button onClick={() => this.dealClick()}>change state</button>
+                    </div>
+                )
+            }
+
+            dealClick(){
+                alert("click!");
+            }
+        }
+
+        ReactDOM.render(
+            <Test/>,
+            document.getElementById('app')
+        );
+
+    </script>
+</body>
+</html>
